@@ -186,117 +186,47 @@ footer{
   opacity:.88;
   transition:opacity .3s,transform .3s;
 }
-.footer-seal img:hover{opacity:1;transform:scale(1.05)}
-.footer-seal-label{
-  color:rgba(255,255,255,.45);
-  font-size:.65em;
-  text-transform:uppercase;
-  letter-spacing:.7px;
-  text-align:center;
-}
-<footer style="background: var(--primary); color: white; padding: 40px 20px; border-top: 5px solid var(--accent); margin-top: auto;">
+</div> <footer style="background: linear-gradient(135deg, var(--primary) 0%, #002244 100%); border-top: 5px solid var(--accent); margin-top: 80px; padding: 40px 20px;">
   <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 30px;">
     
-    <div style="flex: 1; min-width: 250px;">
-      <img src="logo.png" alt="Safety Check Training" style="max-width: 190px; height: auto; display: block; filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.2));">
-      <p style="font-size: 0.85rem; color: rgba(255,255,255,0.7); margin-top: 10px;">
-        &copy; 2026 Safety Check Training. Todos os direitos reservados.
-      </p>
+    <div style="display: flex; align-items: center; gap: 16px; min-width: 280px; flex: 1;">
+      <img src="logo.png" alt="Safety Check Training" style="max-width: 180px; height: auto; display: block; filter: drop-shadow(0px 2px 6px rgba(0,0,0,0.3));">
+      <div style="display: flex; flex-direction: column;">
+        <strong style="color: #fff; font-size: 1.05em; font-weight: 700; letter-spacing: .3px;">SafetyCheck Training</strong>
+        <span style="color: rgba(255,255,255,.6); font-size: .78em; margin-top: 2px;">safetychecktraining.com</span>
+      </div>
     </div>
 
-    <div style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
-      <div style="text-align: right; min-width: 150px;" class="footer-legal-text">
-        <span style="display: block; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.5px; color: var(--accent); text-transform: uppercase; margin-bottom: 4px;">
-          Conformidade Legal
-        </span>
-        <span style="display: block; font-size: 0.8rem; color: rgba(255,255,255,0.9);">
-          Padrões de Segurança UE
-        </span>
+    <div style="text-align: center; min-width: 250px; flex: 1;">
+      <p style="font-size: 0.85rem; color: rgba(255,255,255,0.8); line-height: 1.6; margin: 0;">
+        &copy; 2026 Sistema de Validação Digital de Documentos.<br>Todos os direitos reservados.
+      </p>
+      <small style="display: block; margin-top: 4px; color: rgba(255,255,255,0.45); font-size: 0.75rem;">
+        Plataforma segura de autenticação de documentos oficiais
+      </small>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 24px; flex-shrink: 0; min-width: 280px; justify-content: flex-end;" class="footer-seals">
+      
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
+        <img src="logo-ue.png" alt="União Europeia" style="height: 42px; width: auto; object-fit: contain;">
+        <span style="color: rgba(255,255,255,.45); font-size: .65em; text-transform: uppercase; letter-spacing: .7px;">União Europeia</span>
       </div>
-      
-      <img src="logo-ue.png" alt="Financiado pela União Europeia" style="height: 42px; width: auto; object-fit: contain; background: transparent;">
-      
-      <img src="Logótipo_do_Governo_Portugal.svg" alt="República Portuguesa" style="height: 42px; width: auto; object-fit: contain; background: transparent;">
+
+      <div style="width: 1px; height: 44px; background: rgba(255,255,255,.15);"></div>
+
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
+        <img src="Logótipo_do_Governo_Portugal.svg" alt="Gov. Portugal" style="height: 42px; width: auto; object-fit: contain;">
+        <span style="color: rgba(255,255,255,.45); font-size: .65em; text-transform: uppercase; letter-spacing: .7px;">Gov. Portugal</span>
+      </div>
+
     </div>
 
   </div>
 </footer>
-  .footer-divider{
-  width:1px;
-  height:44px;
-  background:rgba(255,255,255,.15);
-}
-.footer-accent-bar{
-  background:var(--accent);
-  height:4px;
-}
+<div style="background: var(--accent); height: 4px; width: 100%;"></div>
 
-@media(max-width:768px){
-  .footer-inner{flex-direction:column;align-items:center;text-align:center;gap:20px}
-  .footer-seals{justify-content:center}
-  .footer-center{order:3}
-}
-/* ================================================== */
-
-/* MODAL */
-.modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:2000;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
-.modal-overlay.active{display:flex}
-.modal-content{background:#fff;border-radius:16px;padding:40px;width:100%;max-width:420px;box-shadow:var(--shadow-lg);animation:zoomIn .3s ease}
-@keyframes zoomIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
-.modal-header{margin-bottom:25px;padding-bottom:15px;border-bottom:2px solid var(--border)}
-.modal-header h2{margin:0;color:var(--primary)}
-.modal-form{display:flex;flex-direction:column;gap:16px}
-.modal-error{display:none;background:#fee2e2;color:#991b1b;padding:12px;border-radius:8px;font-size:.9em;font-weight:500}
-
-/* ROLE BADGE */
-.role-badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:.75em;font-weight:700;margin-left:8px;text-transform:uppercase;letter-spacing:.5px}
-.role-super{background:#dbeafe;color:#1d4ed8}
-.role-client{background:#d1fae5;color:#065f46}
-
-/* ADMIN PANEL */
-#adminPanel{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:var(--gray-lighter);z-index:1999;overflow-y:auto}
-#adminPanel.active{display:block}
-.admin-header{background:linear-gradient(135deg,var(--primary) 0%,var(--primary-light) 100%);color:#fff;padding:20px 25px;display:flex;justify-content:space-between;align-items:center;box-shadow:var(--shadow)}
-.admin-header-left{display:flex;flex-direction:column;gap:4px}
-.admin-header h2{margin:0;color:#fff;font-size:1.4em}
-.admin-user-info{font-size:.85em;opacity:.85}
-.btn-logout{background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);padding:8px 18px;border-radius:8px;cursor:pointer;font-weight:600;transition:all .3s;font-size:.9em}
-.btn-logout:hover{background:rgba(255,255,255,.3)}
-.admin-content{max-width:1200px;margin:30px auto;padding:0 25px 60px}
-.admin-card{background:#fff;border-radius:12px;padding:30px;margin-bottom:25px;box-shadow:var(--shadow)}
-.admin-card h3{color:var(--primary);font-size:1.15em;margin:0 0 20px;border-bottom:2px solid var(--accent);padding-bottom:10px}
-.add-file-form{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:end}
-@media(max-width:700px){.add-file-form{grid-template-columns:1fr}}
-.files-table{width:100%;border-collapse:collapse;margin-top:20px;font-size:.9em}
-.files-table thead{background:var(--primary);color:#fff}
-.files-table th{padding:12px 14px;text-align:left;font-weight:600;font-size:.85em;text-transform:uppercase;letter-spacing:.5px}
-.files-table td{padding:12px 14px;border-bottom:1px solid var(--border)}
-.files-table tbody tr:hover td{background:var(--gray-lighter)}
-.badge{display:inline-block;padding:3px 10px;border-radius:6px;font-size:.8em;font-weight:600}
-.badge-active{background:#d1fae5;color:#065f46}
-.badge-warning{background:#fef3c7;color:#92400e}
-.badge-expired{background:#fee2e2;color:#991b1b}
-.btn-action{padding:5px 11px;border:none;border-radius:6px;font-size:.82em;cursor:pointer;transition:all .3s;margin-right:4px}
-.btn-delete{background:var(--error);color:#fff}
-.btn-delete:hover{background:#dc2626}
-.empty-msg{text-align:center;padding:40px;color:#9ca3af;font-style:italic}
-.info-banner{background:#eff6ff;border:1px solid #bfdbfe;color:#1e40af;padding:12px 16px;border-radius:8px;font-size:.9em;margin-bottom:16px}
-
-/* TOAST */
-.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);padding:13px 24px;border-radius:10px;font-size:.92em;font-weight:600;z-index:9999;box-shadow:0 8px 28px rgba(0,0,0,.18);display:none;text-align:center;max-width:90vw;animation:slideUp .3s ease}
-.toast-info{background:#003366;color:#fff}
-.toast-error{background:#991b1b;color:#fff}
-.toast-ok{background:#065f46;color:#fff}
-
-@media(max-width:768px){
-  .container{margin:20px;padding:25px}
-  .header h1{font-size:1.8em}
-  .sidebar{width:100%;right:-100%}
-  .top-bar-right{gap:15px}
-}
-</style>
-</head>
-<body>
+<script>
 
 <!-- TOP BAR -->
 <div class="top-bar">
