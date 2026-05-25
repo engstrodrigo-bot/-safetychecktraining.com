@@ -51,15 +51,23 @@ h2{color:var(--primary);font-size:1.5em;margin-bottom:10px;font-weight:700}
 .input-field::placeholder{color:#9ca3af}
 .code-input{text-transform:uppercase;letter-spacing:1px}
 
-/* MATH CHALLENGE */
-.challenge-box{background:var(--gray-lighter);border:2px solid var(--border);border-radius:10px;padding:16px 20px;margin:25px 0;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-.challenge-box.valid{border-color:var(--success);background:#f0fdf4}
-.challenge-label{font-weight:600;color:var(--dark);white-space:nowrap}
-.challenge-question{background:var(--primary);color:#fff;padding:6px 14px;border-radius:8px;font-size:1.1em;font-weight:700;letter-spacing:.5px}
-.challenge-answer{width:80px;padding:8px 12px;border:2px solid var(--border);border-radius:8px;font-size:1em;font-weight:600;text-align:center;font-family:'Inter',sans-serif;transition:all .3s}
-.challenge-answer:focus{outline:none;border-color:var(--primary)}
-.challenge-ok{color:var(--success);font-size:1.4em;display:none}
-.challenge-box.valid .challenge-ok{display:inline}
+/* CAPTCHA */
+.captcha-box{background:#f9f9f9;border:1px solid #d3d3d3;border-radius:4px;padding:14px 18px;margin:25px 0;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 4px rgba(0,0,0,.09);user-select:none}
+.captcha-left{display:flex;align-items:center;gap:14px;cursor:pointer}
+.captcha-check{width:26px;height:26px;border:2px solid #c1c1c1;border-radius:3px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:border-color .2s;background:#fff;position:relative;overflow:hidden}
+.captcha-check:hover{border-color:#4a90d9}
+.captcha-check.loading{border-color:transparent!important;background:transparent}
+.captcha-check.loading::after{content:'';width:20px;height:20px;border:2.5px solid #4a90d9;border-top-color:transparent;border-radius:50%;animation:capSpin .75s linear infinite;position:absolute;top:50%;left:50%;margin:-10px 0 0 -10px}
+@keyframes capSpin{to{transform:rotate(360deg)}}
+.captcha-check.verified{border-color:#4caf50!important;background:#4caf50!important}
+.captcha-check.verified::after{content:none}
+.captcha-check.verified::before{content:'✓';color:#fff;font-size:17px;font-weight:700;line-height:1;animation:capPop .25s ease}
+@keyframes capPop{from{transform:scale(0)}to{transform:scale(1)}}
+.captcha-label{font-size:.94em;color:#222;font-weight:500;cursor:pointer}
+.captcha-right{display:flex;flex-direction:column;align-items:center;gap:3px;flex-shrink:0;padding-left:14px;border-left:1px solid #e0e0e0}
+.captcha-icon{width:34px;height:34px;display:block}
+.captcha-brand{font-size:.6em;font-weight:800;color:#4a90d9;letter-spacing:.4px;text-transform:uppercase}
+.captcha-links{font-size:.55em;color:#aaa;text-align:center;line-height:1.5}
 
 /* BUTTONS */
 .btn{padding:14px 28px;border:none;border-radius:10px;font-size:.95em;font-weight:600;cursor:pointer;transition:all .3s;display:inline-block;text-decoration:none;text-align:center;width:100%;letter-spacing:.3px}
@@ -308,13 +316,20 @@ footer{
       <input type="text" id="codigo" class="input-field code-input" placeholder="Ex: SST.2026.EU.001.A4" autocomplete="off">
     </div>
 
-    <!-- DYNAMIC MATH CHALLENGE -->
-    <div class="challenge-box" id="challengeBox">
-      <span class="challenge-label" id="challenge-label">Verificação de segurança:</span>
-      <span class="challenge-question" id="challengeQuestion"></span>
-      <span style="font-weight:600;color:var(--dark)">=</span>
-      <input type="number" id="challengeAnswer" class="challenge-answer" placeholder="?" oninput="checkChallenge()">
-      <span class="challenge-ok">✓</span>
+    <!-- CAPTCHA "NÃO SOU UM ROBÔ" -->
+    <div class="captcha-box" id="captchaBox">
+      <div class="captcha-left" onclick="triggerCaptcha()">
+        <div class="captcha-check" id="captchaCheck"></div>
+        <span class="captcha-label">Não sou um robô</span>
+      </div>
+      <div class="captcha-right">
+        <svg class="captcha-icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+          <path d="M32 8C18.7 8 8 18.7 8 32s10.7 24 24 24 24-10.7 24-24" stroke="#4a90d9" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+          <polygon points="47,8 59,26 35,26" fill="#4a90d9"/>
+        </svg>
+        <div class="captcha-brand">reCAPTCHA</div>
+        <div class="captcha-links">Privacidade · Termos</div>
+      </div>
     </div>
 
     <div class="error-message" id="errorMessage">
@@ -629,8 +644,8 @@ const T = {
 };
 
 let lang = 'pt';
-let challengeAnswer = 0;
-let challengePassed = false;
+let captchaPassed = false;
+let captchaTimer = null;
 let currentUser = null;
 
 /* ============================================================
@@ -658,41 +673,34 @@ function applyLang() {
 }
 
 /* ============================================================
-   MATH CHALLENGE
+   CAPTCHA
    ============================================================ */
-function newChallenge() {
-  const ops = ['+', '-', '×'];
-  const op = ops[Math.floor(Math.random() * ops.length)];
-  let a, b, ans;
-  if(op === '+')      { a=Math.floor(Math.random()*9)+1; b=Math.floor(Math.random()*9)+1; ans=a+b; }
-  else if(op === '-') { a=Math.floor(Math.random()*9)+2; b=Math.floor(Math.random()*a)+1; ans=a-b; }
-  else                { a=Math.floor(Math.random()*5)+1; b=Math.floor(Math.random()*5)+1; ans=a*b; }
-  challengeAnswer = ans;
-  challengePassed = false;
-  document.getElementById('challengeQuestion').textContent = `${a} ${op} ${b}`;
-  document.getElementById('challengeAnswer').value = '';
-  document.getElementById('challengeBox').classList.remove('valid');
-  document.getElementById('validateBtn').disabled = true;
+function triggerCaptcha() {
+  const check = document.getElementById('captchaCheck');
+  if(captchaPassed || check.classList.contains('loading')) return;
+  check.classList.add('loading');
+  clearTimeout(captchaTimer);
+  captchaTimer = setTimeout(() => {
+    check.classList.remove('loading');
+    check.classList.add('verified');
+    captchaPassed = true;
+    document.getElementById('validateBtn').disabled = false;
+  }, 1500);
 }
 
-function checkChallenge() {
-  const val = parseInt(document.getElementById('challengeAnswer').value, 10);
-  if(val === challengeAnswer) {
-    challengePassed = true;
-    document.getElementById('challengeBox').classList.add('valid');
-    document.getElementById('validateBtn').disabled = false;
-  } else {
-    challengePassed = false;
-    document.getElementById('challengeBox').classList.remove('valid');
-    document.getElementById('validateBtn').disabled = true;
-  }
+function resetCaptcha() {
+  const check = document.getElementById('captchaCheck');
+  check.className = 'captcha-check';
+  captchaPassed = false;
+  clearTimeout(captchaTimer);
+  document.getElementById('validateBtn').disabled = true;
 }
 
 /* ============================================================
    VALIDATION
    ============================================================ */
 function validate() {
-  if(!challengePassed) return;
+  if(!captchaPassed) return;
   const raw = document.getElementById('codigo').value.trim();
   const code = raw.toLowerCase();
 
@@ -702,7 +710,7 @@ function validate() {
 
   if(!inStatic && !inDynamic) {
     document.getElementById('errorMessage').classList.add('show');
-    newChallenge();
+    resetCaptcha();
     return;
   }
 
@@ -725,7 +733,7 @@ function resetPage() {
   document.getElementById('searchArea').style.display = 'block';
   document.getElementById('resultArea').classList.remove('show');
   document.getElementById('errorMessage').classList.remove('show');
-  newChallenge();
+  resetCaptcha();
 }
 
 /* ============================================================
@@ -911,14 +919,13 @@ function renderDocs() {
    INIT
    ============================================================ */
 applyLang();
-newChallenge();
 document.getElementById('codigo').addEventListener('input', e => {
   const pos = e.target.selectionStart;
   e.target.value = e.target.value.toUpperCase();
   e.target.setSelectionRange(pos, pos);
 });
 document.getElementById('codigo').addEventListener('keypress', e => {
-  if(e.key === 'Enter' && challengePassed) validate();
+  if(e.key === 'Enter' && captchaPassed) validate();
 });
 </script>
 </body>
