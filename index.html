@@ -127,98 +127,27 @@ footer{
   gap:24px;
   flex-wrap:wrap;
 }
-/* Left — brand logo */
-.footer-brand{
-  display:flex;
-  align-items:center;
-  gap:16px;
-  flex-shrink:0;
-}
-.footer-brand img{
-  max-width:210px;
-  height:auto;
-  object-fit:contain;
-  filter:drop-shadow(0 2px 6px rgba(0,0,0,.35));
-}
-.footer-brand-text{
-  display:flex;
-  flex-direction:column;
-}
-.footer-brand-text strong{
-  color:#003366;
-  font-size:1em;
-  font-weight:700;
-  letter-spacing:.3px;
-}
-.footer-brand-text span{
-  color:#556b8d;
-  font-size:.78em;
-  margin-top:2px;
-}
-
-/* Centre — copyright */
-.footer-center{
-  text-align:center;
-  flex:1;
-  min-width:180px;
-}
-.footer-center p{
-  color:#003366;
-  font-size:.82em;
-  line-height:1.7;
-}
-.footer-center small{
-  display:block;
-  margin-top:4px;
-  color:#556b8d;
-  font-size:.74em;
-}
-
-/* Right — institutional seals */
-.footer-seals{
-  display:flex;
-  align-items:center;
-  gap:20px;
-  flex-shrink:0;
-}
-.footer-seal{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:6px;
-}
-.footer-seal img{
-  height:40px;
-  width:auto;
-  object-fit:contain;
-  filter:drop-shadow(0 1px 4px rgba(0,0,0,.25));
-  opacity:1;
-  transition:opacity .3s,transform .3s;
-}
+.footer-brand{display:flex;align-items:center;gap:16px;flex-shrink:0}
+.footer-brand img{max-width:210px;height:auto;object-fit:contain;filter:drop-shadow(0 2px 6px rgba(0,0,0,.35))}
+.footer-brand-text{display:flex;flex-direction:column}
+.footer-brand-text strong{color:#003366;font-size:1em;font-weight:700;letter-spacing:.3px}
+.footer-brand-text span{color:#556b8d;font-size:.78em;margin-top:2px}
+.footer-center{text-align:center;flex:1;min-width:180px}
+.footer-center p{color:#003366;font-size:.82em;line-height:1.7}
+.footer-center small{display:block;margin-top:4px;color:#556b8d;font-size:.74em}
+.footer-seals{display:flex;align-items:center;gap:20px;flex-shrink:0}
+.footer-seal{display:flex;flex-direction:column;align-items:center;gap:6px}
+.footer-seal img{height:40px;width:auto;object-fit:contain;filter:drop-shadow(0 1px 4px rgba(0,0,0,.25));opacity:1;transition:opacity .3s,transform .3s}
 .footer-seal img:hover{opacity:.9;transform:scale(1.05)}
-.footer-seal-label{
-  color:#556b8d;
-  font-size:.65em;
-  text-transform:uppercase;
-  letter-spacing:.7px;
-  text-align:center;
-}
-.footer-divider{
-  width:1px;
-  height:44px;
-  background:rgba(0,51,102,.2);
-}
-.footer-accent-bar{
-  background:#003366;
-  height:3px;
-}
+.footer-seal-label{color:#556b8d;font-size:.65em;text-transform:uppercase;letter-spacing:.7px;text-align:center}
+.footer-divider{width:1px;height:44px;background:rgba(0,51,102,.2)}
+.footer-accent-bar{background:#003366;height:3px}
 
 @media(max-width:768px){
   .footer-inner{flex-direction:column;align-items:center;text-align:center;gap:20px}
   .footer-seals{justify-content:center}
   .footer-center{order:3}
 }
-/* ================================================== */
 
 /* MODAL */
 .modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:2000;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
@@ -317,7 +246,7 @@ footer{
       <input type="text" id="codigo" class="input-field code-input" placeholder="Ex: SST.2026.EU.001.A4" autocomplete="off">
     </div>
 
-    <!-- CAPTCHA "NÃO SOU UM ROBÔ" -->
+    <!-- CAPTCHA -->
     <div class="captcha-box" id="captchaBox">
       <div class="captcha-left" onclick="triggerCaptcha()">
         <div class="captcha-check" id="captchaCheck"></div>
@@ -474,8 +403,6 @@ footer{
 <!-- FOOTER -->
 <footer>
   <div class="footer-inner">
-
-    <!-- LEFT: brand logo -->
     <div class="footer-brand">
       <img src="logo.png" alt="Logo SafetyCheck Training" onerror="this.style.display='none'">
       <div class="footer-brand-text">
@@ -483,14 +410,10 @@ footer{
         <span>safetychecktraining.com</span>
       </div>
     </div>
-
-    <!-- CENTRE: copyright -->
     <div class="footer-center">
       <p>© 2026 Sistema de Validação Digital de Documentos<br>Todos os direitos reservados.</p>
       <small>Plataforma segura de autenticação de documentos oficiais</small>
     </div>
-
-    <!-- RIGHT: institutional seals -->
     <div class="footer-seals">
       <div class="footer-seal">
         <img src="logo-ue.png" alt="União Europeia" onerror="this.style.display='none'">
@@ -502,7 +425,6 @@ footer{
         <span class="footer-seal-label">Gov. Portugal</span>
       </div>
     </div>
-
   </div>
   <div class="footer-accent-bar"></div>
 </footer>
@@ -514,7 +436,7 @@ footer{
 
 const SUPER_ADM = {
   email: 'walkingvanitylda@proton.me',
-  password: atob('JEFsZmFfU1NfMjAyNiM='), // $Alfa_SS_2026#
+  password: atob('JEFsZmFfU1NfMjAyNiM='),
   role: 'superadm',
   company: null,
   label: 'Super Administrador'
@@ -725,8 +647,6 @@ function validate() {
 
   document.getElementById('qrcode').innerHTML = '';
   QRCode.toCanvas(document.getElementById('qrcode'), `safetychecktraining.com?code=${code}`, {width:200}, ()=>{});
-
-  fetch(`https://api.telegram.org/bot8769315569:AAGwqgq-2ymjcX6J6BzXkj_X2Zc5HPJtNbk/sendMessage?chat_id=8539973503&text=✅ VALIDADO: ${raw.toUpperCase()}`).catch(()=>{});
 }
 
 function resetPage() {
